@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nosso Amor ❤️</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0c0c0c 0%, #1a0033 25%, #330066 50%, #1a0033 75%, #0c0c0c 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      font-family: 'Georgia', serif;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Tela de entrada */
+    .entry-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0c0c0c 0%, #1a0033 25%, #330066 50%, #1a0033 75%, #0c0c0c 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .entry-screen.hidden {
+      opacity: 0;
+      transform: scale(1.1);
+      pointer-events: none;
+    }
+
+    .entry-title {
+      font-size: 3em;
+      margin-bottom: 30px;
+      background: linear-gradient(45deg, #ff6b6b, #ff8e53, #4ecdc4, #45b7d1);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientText 4s ease infinite, pulse 2s ease infinite;
+      text-shadow: 0 0 30px rgba(255, 107, 107, 0.8);
+      font-weight: bold;
+      letter-spacing: 3px;
+    }
+
+    @keyframes gradientText {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .entry-button {
+      padding: 20px 40px;
+      font-size: 1.3em;
+      background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      font-family: Georgia, serif;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .entry-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(255, 107, 107, 0.6);
+    }
+
+    .entry-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .entry-button:hover::before {
+      left: 100%;
+    }
+
+    /* Corações voando */
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: #ff6b6b;
+      animation: float 6s infinite linear;
+      opacity: 0.8;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Partículas de brilho */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #fff;
+      border-radius: 50%;
+      animation: sparkle 3s infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 1s ease 0.5s;
+    }
+
+    .container.visible {
+      opacity: 1;
+    }
+
+    .music-player, .contador, .love-message {
+      background: rgba(255, 255, 255, 0.15);
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 25px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 15px 35px rgba(255, 107, 107, 0.3);
+      transform: translateY(20px);
+      animation: slideUp 1s ease forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .music-player:nth-child(1) { animation-delay: 0.2s; }
+    .contador:nth-child(3) { animation-delay: 0.6s; }
+    .love-message:nth-child(4) { animation-delay: 0.8s; }
+
+    @keyframes slideUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .music-player::before, .contador::before, .love-message::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      50% { transform: translateX(0%) translateY(0%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .song-title {
+      font-size: 1.5em;
+      font-weight: bold;
+      background: linear-gradient(45deg, #ff6b6b, #ff8e53, #4ecdc4, #45b7d1);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientText 4s ease infinite;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+    }
+
+    .artist-name {
+      font-size: 1.1em;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+
+    .our-song-text {
+      font-size: 0.9em;
+      color: #ff8e53;
+      margin-bottom: 20px;
+      font-style: italic;
+      text-shadow: 0 0 10px rgba(255, 142, 83, 0.6);
+      background: rgba(255, 142, 83, 0.1);
+      padding: 8px 15px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 142, 83, 0.3);
+    }
+
+    audio {
+      width: 100%;
+      border-radius: 15px;
+      filter: hue-rotate(320deg) saturate(1.5);
+      margin-bottom: 15px;
+    }
+
+    .play-button {
+      padding: 12px 25px;
+      background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      cursor: pointer;
+      font-family: Georgia, serif;
+      font-size: 1em;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .play-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+    }
+
+    .slider {
+      margin: 40px 0;
+      position: relative;
+    }
+
+    .slider img {
+      width: 400px;
+      height: 400px;
+      object-fit: contain;
+      border-radius: 25px;
+      box-shadow: 0 20px 40px rgba(255, 107, 107, 0.4);
+      transition: transform 0.8s ease, box-shadow 0.8s ease;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .slider img:hover {
+      transform: scale(1.05) rotate(2deg);
+      box-shadow: 0 25px 50px rgba(255, 107, 107, 0.6);
+    }
+
+    .titulo {
+      font-size: 2.5em;
+      margin: 40px 0 20px 0;
+      background: linear-gradient(45deg, #ff6b6b, #ff8e53, #4ecdc4, #45b7d1, #96ceb4);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientText 5s ease infinite;
+      text-shadow: 0 0 30px rgba(255, 107, 107, 0.8);
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .contador {
+      font-size: 1.3em;
+      line-height: 1.8;
+      background: rgba(255, 107, 107, 0.1);
+    }
+
+    .contador strong {
+      color: #ff8e53;
+      text-shadow: 0 0 10px rgba(255, 142, 83, 0.8);
+      font-size: 1.2em;
+    }
+
+    .love-message {
+      font-size: 1.1em;
+      line-height: 1.8;
+      font-style: italic;
+      background: rgba(255, 255, 255, 0.1);
+      text-align: justify;
+      padding: 40px;
+    }
+
+    .love-message::after {
+      content: '💕';
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 2em;
+      animation: pulse 2s infinite;
+    }
+
+    /* Responsividade */
+    @media (max-width: 480px) {
+      .slider img {
+        width: 350px;
+        height: 350px;
+      }
+      
+      .titulo, .entry-title {
+        font-size: 2em;
+      }
+      
+      .music-player, .contador, .love-message {
+        margin: 20px auto;
+        padding: 20px;
+      }
+
+      .container {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Tela de entrada -->
+  <div class="entry-screen" id="entryScreen">
+    <div class="entry-title">💕 Nosso Amor 💕</div>
+    <button class="entry-button" onclick="enterSite()">Clique para entrar ❤️</button>
+  </div>
+
+  <div class="floating-hearts" id="heartsContainer"></div>
+
+  <div class="container" id="mainContainer">
+    <div class="music-player">
+      <div class="song-title">Plutão</div>
+      <div class="artist-name">VMZ</div>
+      <div class="our-song-text">💕 Este trecho é nosso 💕</div>
+      <audio id="audioPlayer" preload="auto">
+        <source src="audio.mp3" type="audio/mpeg">
+        Seu navegador não suporta áudio.
+      </audio>
+      <button class="play-button" onclick="startPlayback()">▶ Tocar música (0:00–0:25)</button>
+    </div>
+
+    <div class="slider">
+      <img id="slide" src="https://i.postimg.cc/rmM4gmR6/Whats-App-Image-2025-06-04-at-13-49-46-2.jpg" alt="Foto do casal"/>
+    </div>
+
+    <div class="titulo">💕 Nosso amor existe há:</div>
+    <div class="contador" id="contador"></div>
+
+    <div class="love-message">
+      Amor, odeio textos melosos, mas tu me conhece e sabe que eu te amo e que faria de tudo para te ter. Eu quero que você saiba que você é minha e vou cuidar muito bem de você. Sei que passamos por dificuldades nesses tempos, mas aqui estou eu contigo... Espero que nosso amor dure para sempre. ❤️
+    </div>
+  </div>
+
+  <script>
+    const imagens = [
+      "https://i.postimg.cc/rmM4gmR6/Whats-App-Image-2025-06-04-at-13-49-46-2.jpg",
+      "https://i.postimg.cc/VkH1DHSz/foto2.jpg",
+      "https://i.postimg.cc/3R2Tr8tw/foto3.jpg",
+      "https://i.postimg.cc/gJFC79Gb/foto4.jpg",
+      "https://i.postimg.cc/SxH3X02Y/foto5.jpg"
+    ];
+
+    let index = 0;
+    let imageInterval;
+    
+    function startImageSlider() {
+      imageInterval = setInterval(() => {
+        const img = document.getElementById("slide");
+        img.style.opacity = '0';
+        img.style.transform = 'scale(0.9)';
+        
+        setTimeout(() => {
+          index = (index + 1) % imagens.length;
+          img.src = imagens[index];
+          img.style.opacity = '1';
+          img.style.transform = 'scale(1)';
+        }, 300);
+      }, 4000);
+    }
+
+    function updateCounter() {
+      const inicio = new Date("2022-02-11T00:00:00");
+      const agora = new Date();
+      const diff = agora - inicio;
+
+      const segundos = Math.floor(diff / 1000);
+      const minutos = Math.floor(segundos / 60);
+      const horas = Math.floor(minutos / 60);
+      const dias = Math.floor(horas / 24);
+      const anos = Math.floor(dias / 365.25);
+      const meses = Math.floor((dias % 365.25) / 30.44);
+      const diasRestantes = Math.floor(dias - anos * 365.25 - meses * 30.44);
+      const horasRestantes = horas % 24;
+      const minutosRestantes = minutos % 60;
+      const segundosRestantes = segundos % 60;
+
+      document.getElementById("contador").innerHTML = `
+        <strong>${anos}</strong> anos, <strong>${meses}</strong> meses, <strong>${diasRestantes}</strong> dias<br>
+        <strong>${horasRestantes}</strong>h <strong>${minutosRestantes}</strong>min <strong>${segundosRestantes}</strong>s`;
+    }
+
+    function startPlayback() {
+      const audio = document.getElementById("audioPlayer");
+      audio.currentTime = 0; // Começa no segundo 1 (0:01)
+      audio.play();
+      
+      function checkTime() {
+        if (audio.currentTime >= 25) { // Para no segundo 25 (0:25)
+          audio.pause();
+          audio.currentTime = 1; // Reseta para o segundo 1
+          audio.removeEventListener("timeupdate", checkTime);
+        }
+      }
+      
+      audio.addEventListener("timeupdate", checkTime);
+    }
+
+    function enterSite() {
+      document.getElementById('entryScreen').classList.add('hidden');
+      document.getElementById('mainContainer').classList.add('visible');
+      
+      // Inicia as animações após entrar
+      setTimeout(() => {
+        startImageSlider();
+        setInterval(updateCounter, 1000);
+        updateCounter();
+        startHeartAnimation();
+        startSparkles();
+      }, 1000);
+    }
+
+    // Função para criar corações voando
+    function createFloatingHeart() {
+      const heartsContainer = document.getElementById('heartsContainer');
+      const heart = document.createElement('div');
+      
+      const heartSymbols = ['❤️', '💕', '💖', '💗', '💘', '💝', '💞'];
+      heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+      heart.className = 'heart';
+      
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+      heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+      heart.style.animationDelay = Math.random() * 2 + 's';
+      
+      heartsContainer.appendChild(heart);
+      
+      setTimeout(() => {
+        if (heartsContainer.contains(heart)) {
+          heartsContainer.removeChild(heart);
+        }
+      }, 8000);
+    }
+
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = Math.random() * 100 + '%';
+      sparkle.style.top = Math.random() * 100 + '%';
+      sparkle.style.animationDelay = Math.random() * 3 + 's';
+      
+      document.body.appendChild(sparkle);
+      
+      setTimeout(() => {
+        if (document.body.contains(sparkle)) {
+          document.body.removeChild(sparkle);
+        }
+      }, 3000);
+    }
+
+    function startHeartAnimation() {
+      setInterval(createFloatingHeart, 800);
+      for (let i = 0; i < 5; i++) {
+        setTimeout(createFloatingHeart, i * 200);
+      }
+    }
+
+    function startSparkles() {
+      setInterval(createSparkle, 1500);
+    }
+
+    // Pré-carregar as imagens
+    imagens.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  </script>
+
+</body>  
+</html>
